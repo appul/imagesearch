@@ -14,7 +14,7 @@ type exactImage struct {
 	img *image.RGBA
 }
 
-func newSearchableExact(img image.Image) *exactImage {
+func newExactImage(img image.Image) *exactImage {
 	bounds := img.Bounds()
 
 	// Make a copy of the source image

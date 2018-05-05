@@ -21,7 +21,7 @@ type toleranceImage struct {
 	stride int
 }
 
-func newSearchableTolerance(img image.Image, t uint8) *toleranceImage {
+func newToleranceImage(img image.Image, t uint8) *toleranceImage {
 	bounds := img.Bounds()
 
 	// Create images with the minimum and maximum tolerable color values for

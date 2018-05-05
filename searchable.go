@@ -14,8 +14,8 @@ type Searchable interface {
 // NewSearchableImage returns a new Searchable using an image to search for
 func NewSearchableImage(img image.Image, tolerance uint8) Searchable {
 	if tolerance == 0 {
-		return newSearchableExact(img)
+		return newExactImage(img)
 	}
 
-	return newSearchableTolerance(img, tolerance)
+	return newToleranceImage(img, tolerance)
 }
