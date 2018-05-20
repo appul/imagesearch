@@ -37,16 +37,16 @@ func (e *exactImage) SearchIn(img *image.RGBA) image.Rectangle {
 	bounds := img.Bounds()
 
 	// baseOffset is the offset of the first pixel of img in img.Pix
-	baseOffset := img.PixOffset(bounds.Min.Y, bounds.Min.X)
+	baseOffset := img.PixOffset(bounds.Min.X, bounds.Min.Y)
 
 	// The width and the height of the searchable region account for the width
 	// of the source image
-	width := bounds.Max.X - e.width + 1
-	height := bounds.Max.Y - e.height + 1
+	width := bounds.Dx() - e.width + 1
+	height := bounds.Dy() - e.height + 1
 
 	// Iterate over the pixels in the image
-	for y := bounds.Min.Y; y < height; y++ {
-		for x := bounds.Min.X; x < width; x++ {
+	for y := 0; y < height; y++ {
+		for x := 0; x < width; x++ {
 
 			// Check if the region matches our source
 			if !e.check(baseOffset+y*img.Stride+x*4, img) {
@@ -55,7 +55,11 @@ func (e *exactImage) SearchIn(img *image.RGBA) image.Rectangle {
 
 			// Return a new rect from the current position with the width and
 			// height of the source image
-			return image.Rect(x, y, x+e.width, y+e.height)
+			min := bounds.Min.Add(image.Pt(x, y))
+			return image.Rectangle{
+				Min: min,
+				Max: min.Add(image.Pt(e.width, e.height)),
+			}
 		}
 	}
 
